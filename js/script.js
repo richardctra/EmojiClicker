@@ -37,4 +37,33 @@ function criarEmoji() {
 
     emoji.style.left = `${Math.random() * maxX}px`
     emoji.style.top = `${Math.random() * maxY}px`
-}
+
+    emoji.addEventListenerListener('click', () =>{
+        emoji.classList.add('clicado')
+        pontos += 5
+        pontosDisplay.textContent = pontos
+
+        const mensagem = mensagensZoeiras[Math.floor(Math.random()*mensagensZoeiras.length)]
+        adicionarHistorico(`${mensagem} (${emoji.textContent})`)
+        if(emoji.isConnected){
+            emoji.remove()
+        }
+
+        areaJogo.appendChild(emoji)
+
+        setTimeout(() =>{
+            if(emoji.isConnected){
+                emoji.remove()
+            }
+            pontos = Math.max(0, pontos - 1)
+            pontosDisplay.textContent = pontos
+            adicionarHistorico(`Perdeu o emoji ${emoji.textContent}! 🤣`)
+        },  2000)
+
+
+    });
+
+
+}        
+    setInterval(criarEmoji, 1500)
+    criarEmoji()
